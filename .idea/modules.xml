@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Airline Reservation System.src/Airline Reservation System.src.iml" filepath="$PROJECT_DIR$/Airline Reservation System.src/Airline Reservation System.src.iml" />
+      <module fileurl="file://$PROJECT_DIR$/airliner-github.iml" filepath="$PROJECT_DIR$/airliner-github.iml" />
+    </modules>
+  </component>
+</project>
