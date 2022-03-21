@@ -1,9 +1,10 @@
+package Airline;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-
 
 
 
@@ -17,37 +18,39 @@ public class Airline_reservation_system {
     //</editor-fold>
     public static void main(String[] args) throws FileNotFoundException {
         //<editor-fold desc="File reading & lists">
-        File file = new File("C:\\Users\\decla\\Documents\\airliner-github\\Airline reservation system\\src\\aircrafts.txt");
+        //<editor-fold desc="File directories">
+        File file = new File("C:\\Users\\decla\\Downloads\\airport-reservation-system-code\\airport-reservation-system-code\\Airline reservation system\\src\\aircrafts.txt");
+//        File file = new File("C:\\Users\\decla\\Documents\\airliner-github\\Airline reservation system\\src\\aircrafts.txt"); // laptop
+        //</editor-fold>
         Scanner fileread = new Scanner(file).useDelimiter("\\Z");
         String aircrafts = fileread.nextLine();
         String seatletters = fileread.nextLine();
         String seatnumbers = fileread.nextLine();
+        String[] tempseatletters = seatletters.split("\\|");
+        System.out.println(Arrays.toString(tempseatletters));
         String[] aircraftlist = (aircrafts.substring(aircrafts.indexOf("{") + 1, aircrafts.indexOf("}")).split(" "));
-//        String[][] seatletterslist = new String[][]{(seatletters.substring(seatletters.indexOf("{")+1,seatletters.indexOf("}")).split(","))};
-        System.out.println((Arrays.toString(aircraftlist)));
-
-        ArrayList<String[]> seatletterslist = new ArrayList<>();
-//        System.out.println(Arrays.deepToString());
+        System.out.println(Arrays.toString(aircraftlist));
+        ArrayList<String[]> seatletterslist = new ArrayList<>(aircrafts.length());
         for (int x = 0; x < aircraftlist.length; x++) {
-            seatletterslist.add(seatletters.split("\\|"));
+            seatletterslist.add(tempseatletters[x].split(","));
+            System.out.println(Arrays.toString(seatletterslist.get(x)));
         }
-        System.out.println((seatletterslist));
         ArrayList<ArrayList<ArrayList<String[]>>> seatnumberslist = new ArrayList<>(aircraftlist.length);
         seatnumberslist.add(new ArrayList<>());
-//        System.out.println(Arrays.deepToString(seatletterslist));
-        int y = 0;
-        //</editor-fold>
+        //</editor-fold>2
 //        System.out.println(Arrays.toString(seatletterslist));
-        while (y < seatletters.substring(seatletters.indexOf("{") + 2, seatletters.indexOf("}")).replaceAll(",", "").length()) {
-            String[] q = (seatnumbers.substring(seatnumbers.indexOf("{") + 1, seatnumbers.indexOf("}"))).split(" ");
-            seatnumbers = seatnumbers.substring(seatnumbers.indexOf("}") + 1);
-            seatnumberslist.get(0).add(new ArrayList<>());
-            seatnumberslist.get(0).get(0).add(q);
-            y += 1;
-            System.out.println(Arrays.toString(q));
+        for (int x = 0; x<seatletterslist.size();x++) {
+            for (int y = 0; y<seatletterslist.get(x).length;y++){
+                String[] q = (seatnumbers.substring(seatnumbers.indexOf("{") + 1, seatnumbers.indexOf("}"))).split(" ");
+                seatnumbers = seatnumbers.substring(seatnumbers.indexOf("}") + 1);
+                seatnumberslist.get(0).add(new ArrayList<>());
+                seatnumberslist.get(0).get(0).add(q);
+            }
         }
+
         ArrayList<ArrayList<ArrayList<seat>>> seats = new ArrayList<>(seatletters.length());
         //<editor-fold desc="Description">
+        System.out.println(seatnumberslist.size());
         for (int x = 0; x < seatnumberslist.get(0).get(0).size(); x++) {
             seats.add(new ArrayList<>());
             for (int z = 0; z < seatnumberslist.get(0).get(0).get(x).length; z++) {
@@ -57,6 +60,7 @@ public class Airline_reservation_system {
                 }
             }
         }
+
         //</editor-fold>
 
 
