@@ -27,26 +27,48 @@ public class Airline_reservation_system {
         int Flight_number = 1;
         planes();
         Scanner main_menu = new Scanner(System.in);
-        String Flight_aircraft;
-        int aircraftIndex;
-        while (true) {
-            System.out.println("What aircraft is being used: ");
-            Flight_aircraft = main_menu.nextLine();
-            aircraftIndex = aircraft_check(Flight_aircraft);
-            if (aircraftIndex != -1) {
-                break;
+        while (true){
+            String menu = main_menu.next();
+            if (menu.equals("1")){
+                String Flight_aircraft;
+                int aircraftIndex;
+                while (true) {
+                    System.out.println("What aircraft is being used: ");
+                    Flight_aircraft = main_menu.next();
+                    aircraftIndex = aircraft_check(Flight_aircraft);
+                    if (aircraftIndex != -1) {
+                        break;
+                    }
+                    System.out.println("That is not an available aircraft");
+                }
+                System.out.println("What time does it depart: ");
+                String Flight_time = main_menu.next();
+                System.out.println("Where is the departure: ");
+                String Flight_departure = main_menu.next();
+                System.out.println("Where does it arrive: ");
+                String Flight_Arrival = main_menu.next();
+                System.out.println("Flight " + Flight_number + "\nAircraft: " +Flight_aircraft+ "\nTime: "+Flight_time+"\nDeparture: "+Flight_departure+"\nArrival: "+Flight_Arrival);
+                Flight_number ++;
+                newFlight(aircraftIndex,Flight_time,Flight_departure,Flight_Arrival);
             }
-            System.out.println("That is not an available aircraft");
+            else{
+                System.out.println("type in the flight number: ");
+                int flightNumber = Integer.parseInt(main_menu.next())-1;
+                System.out.println("type in the seat letter: ");
+                String seatLetter = main_menu.next();
+                System.out.println("type in the seat number: ");
+                String seatNumber = main_menu.next();
+                System.out.println("type in your first name: ");
+                String firstName = main_menu.next();
+                System.out.println("type in your last name: ");
+                String lastName = main_menu.next();
+                Flights.get(flightNumber).Aircraft.aircraft_seats.get(seatLetterIndex(Flights.get(flightNumber).Aircraft.aircraft_name,seatLetter)).get(Integer.parseInt(seatNumber)).passenger = new Passenger(firstName,lastName);
+                System.out.println(Flights.get(flightNumber).Aircraft.aircraft_seats.get(seatLetterIndex(Flights.get(flightNumber).Aircraft.aircraft_name,seatLetter)).get(Integer.parseInt(seatNumber)).passenger.Firstname);
+                System.out.println(seatLetterIndex(Flights.get(flightNumber).Aircraft.aircraft_name,seatLetter));
+            }
         }
-        System.out.println("What time does it depart: ");
-        String Flight_time = main_menu.next();
-        System.out.println("Where is the departure: ");
-        String Flight_departure = main_menu.next();
-        System.out.println("Where does it arrive: ");
-        String Flight_Arrival = main_menu.next();
-        System.out.println("Flight " + Flight_number + "\nAircraft: " +Flight_aircraft+ "\nTime: "+Flight_time+"\nDeparture: "+Flight_departure+"\nArrival: "+Flight_Arrival);
-        newFlight(aircraftIndex,Flight_time,Flight_departure,Flight_Arrival);
     }
+
     public static void newFlight(int aircraftIndex,String Time, String Depart, String Arrival){
         Flights.add(new Flight(aircraft_objects.get(aircraftIndex),new Flightpath(Time,Depart,Arrival)));
     }
@@ -58,11 +80,21 @@ public class Airline_reservation_system {
         }
         return -1;
     }
+
+    public static int seatLetterIndex(String aircraft, String seatLetter){
+        String[] temporary_seat_letter = seat_letters[aircraft_check(aircraft)].split(" ");
+        for (int x = 0; x<temporary_seat_letter.length;x++){
+            if (seatLetter.equals(temporary_seat_letter[x])){
+                return x;
+            }
+        }
+        return -1;
+    }
+
     public static void planes(){
         for (int x = 0; x<aircraft.length;x++){
             aircraft_objects.add(new Airline.Aeroplane());
             aircraft_objects.get(x).aircraft_name = aircraft[x];
-            //<editor-fold desc="Aircraft manufacturer name">
             if (aircraft[x].charAt(0) == '7'){
                 aircraft_objects.get(x).aircraft_manufacturer = "Boeing";
             }
@@ -72,7 +104,6 @@ public class Airline_reservation_system {
             else{
                 aircraft_objects.get(x).aircraft_manufacturer = "*";
             }
-            //</editor-fold>
             String[] temporary_seat_amount = seat_amount[x].split(",");
             String[] temporary_seat_class = seat_class[x].split(",");
             String[] temporary_seat_letter = seat_letters[x].split(" ");
@@ -93,7 +124,7 @@ public class Airline_reservation_system {
         }
     }
 }
-class Flight{
+class Flight    {
     Aeroplane Aircraft;
     Flightpath Flight_path;
     public Flight(Aeroplane passedAircraft, Flightpath passedFlightPath){
@@ -116,7 +147,6 @@ class Aeroplane {
     String aircraft_name;
     String aircraft_manufacturer;
 }
-
 class Seats {
     Passenger passenger;
     String seat_number;
@@ -131,5 +161,9 @@ class Seats {
 class Passenger {
     String Firstname;
     String Lastname;
+    public Passenger(String passedFirstname, String passedLastname){
+        Firstname = passedFirstname;
+        Lastname = passedLastname;
+    }
 }
 
