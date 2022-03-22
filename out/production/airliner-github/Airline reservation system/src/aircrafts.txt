@@ -1,3 +1,4 @@
-{A380 A318 A310 A330 A340 A350 737 747 767 777 787}
-A,B,C,D,E,F,G,H,J,K|*|*|*|*|*|*|*|*|*|*
-{5 17 11 6},{17 11 6},{17 11 6},{11 10 7},{11 11 7},{5 11 11 7},{11 11 7},{13 11 8},{13 11 8},{5 13 11 7}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}
+A380 A480 * * * * * * * * *
+A B C D E F G H J K|*|*|*|*|*|*|*|*|*|*
+5 17 11 6,17 11 6,17 11 6,11 10 7,11 11 7,5 11 11 7,11 11 7,13 11 8,13 11 8,5 13 11 7|0|0|0|0|0|0|0|0|0|0
+first economy economy economy,economy economy economy,economy economy economy,economy economy economy,economy economy economy,first economy economy economy,economy economy economy,economy economy economy,economy economy economy,first economy economy economy|null|null|null|null|null|null|null|null|null|null
