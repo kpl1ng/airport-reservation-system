@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -27,13 +28,15 @@ public class Airline_reservation_system {
     static String[] seat_amount = aircraft_file_read.nextLine().split("\\|");
     static String[] seat_class = aircraft_file_read.nextLine().split("\\|");
     static ArrayList<Airline.Aeroplane> aircraft_objects = new ArrayList<>();
-    static ArrayList<Flight> Flights = new ArrayList<>();
+    static ArrayList<Flight> tFlights = new ArrayList<>();
+    static Gate airportGates = new Gate();
     public static void main(String[] args){
         int Flight_number = 1;
         planes();
         Scanner main_menu = new Scanner(System.in);
         while (true) {
             String menu = main_menu.next();
+            System.out.println(Arrays.toString(airportGates.gateNumber));
             if (menu.equals("0")){
                 break;
             }
@@ -69,6 +72,7 @@ public class Airline_reservation_system {
                 System.out.println("Flight " + Flight_number + "\nAircraft: " + Flight_aircraft + "\nDate: " + flightDate.get(2) + "-" + flightDate.get(3) + "-" + LocalDateTime.now().getYear() + "  " + flightDate.get(0) + ":" + flightDate.get(1) + "\nDeparture: " + flightDeparture + "\nArrival: " + flightArrival);
                 Flight_number++;
                 newFlight(aircraftIndex, flightDate, flightDeparture, flightArrival);
+                airportGates.addFlight(Flight_number);
             } else {
                 System.out.println("type in the flight number: ");
                 int flightNumber = Integer.parseInt(main_menu.next()) - 1;
@@ -80,15 +84,15 @@ public class Airline_reservation_system {
                 String firstName = main_menu.next();
                 System.out.println("type in your last name: ");
                 String lastName = main_menu.next();
-                Flights.get(flightNumber).Aircraft.aircraft_seats.get(seatLetterIndex(Flights.get(flightNumber).Aircraft.aircraft_name, seatLetter)).get(Integer.parseInt(seatNumber)).passenger = new Passenger(firstName, lastName);
-                System.out.println(Flights.get(flightNumber).Aircraft.aircraft_seats.get(seatLetterIndex(Flights.get(flightNumber).Aircraft.aircraft_name, seatLetter)).get(Integer.parseInt(seatNumber)).passenger.Firstname);
-                System.out.println(seatLetterIndex(Flights.get(flightNumber).Aircraft.aircraft_name, seatLetter));
+                tFlights.get(flightNumber).Aircraft.aircraft_seats.get(seatLetterIndex(tFlights.get(flightNumber).Aircraft.aircraft_name, seatLetter)).get(Integer.parseInt(seatNumber)).passenger = new Passenger(firstName, lastName);
+                System.out.println(tFlights.get(flightNumber).Aircraft.aircraft_seats.get(seatLetterIndex(tFlights.get(flightNumber).Aircraft.aircraft_name, seatLetter)).get(Integer.parseInt(seatNumber)).passenger.Firstname);
+                System.out.println(seatLetterIndex(tFlights.get(flightNumber).Aircraft.aircraft_name, seatLetter));
             }
         }
     }
 
     public static void newFlight(int aircraftIndex,ArrayList<Integer> flightDate, String flightDepart, String flightArrival){
-        Flights.add(new Flight(aircraft_objects.get(aircraftIndex),new Flightpath(flightDepart,flightArrival,flightDate)));
+        tFlights.add(new Flight(aircraft_objects.get(aircraftIndex),new Flightpath(flightDepart,flightArrival,flightDate)));
     }
     public static int aircraft_check(String Flight_aircraft){
         for (int x = 0; x<aircraft.length;x++){
@@ -143,10 +147,26 @@ public class Airline_reservation_system {
     }
 }
 
+class Gate{
+    int[] flightNumber = new int[90];
+    int[] gateNumber = new int[90];
+    public Gate(){
+        Arrays.fill(gateNumber,-1);
+        Arrays.fill(flightNumber,-1);
+    }
+    public void addFlight(int passedflightNumber){
+        int x = 0;
+        while (!(gateNumber[x] == -1) && (x<gateNumber.length)){
+            x++;
+        }
+        flightNumber[x] = passedflightNumber;
+        gateNumber[x] = x+1;
+    }
+}
 
 
 
-class Flight    {
+class Flight{
     Aeroplane Aircraft;
     Flightpath Flight_path;
     public Flight(Aeroplane passedAircraft, Flightpath passedFlightPath){
